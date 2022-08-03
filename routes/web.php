@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\SecretController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,5 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Index');
-});
+Route::get('/', [SecretController::class, 'index'])->name('home');
+Route::post('/store', [SecretController::class, 'store'])->name('secret.store');
