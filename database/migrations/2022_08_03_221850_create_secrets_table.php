@@ -17,11 +17,11 @@ return new class extends Migration
 
       $table->id();
       $table->timestamps();
+      $table->timestamp('expires_at');
       $table->text('uuid');
-      $table->timestamp('expire_time');
-      $table->bigInteger('count_views')->unsigned()->default(0);
-      $table->bigInteger('expire_views')->unsigned()->default(1);
       $table->text('secret');
+      $table->unsignedBigInteger('count_views')->default(0);
+      $table->unsignedBigInteger('expire_views')->default(1);
     });
   }
 

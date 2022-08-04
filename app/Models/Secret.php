@@ -9,5 +9,5 @@ class Secret extends Model
 {
   use HasFactory;
 
-  protected $fillable = array('uuid', 'created_at', 'expire_time', 'expire_views', 'secret');
+  protected $fillable = array('uuid', 'created_at', 'expires_at', 'expire_views', 'secret');
 }
