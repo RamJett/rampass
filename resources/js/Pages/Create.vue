@@ -9,6 +9,10 @@ const form = useForm({
 const submit = () => {
   form.post(route("secret.store"));
 };
+
+defineProps({
+  now: String,
+});
 </script>
 
 <template>
