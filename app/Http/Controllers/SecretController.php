@@ -66,21 +66,32 @@ class SecretController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param  int  $uuid
+   * @param  string  $uuid
    * @return \Illuminate\Http\Response
    */
   public function show($uuid)
   {
-    $items = Secret::all()->filter(function($record) use($uuid) {
-    if(Crypt::decrypt($record->nric) == $nric) {
-        return $record;
+    $secret = Secret::where('uuid', crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$'))->firstOrFail();
+    if (!empty($secret)) {
+      // Check for expiry
+      if (Carbon::now()->gte($secret->expires_at) || $secret->count_views >= $secret->expire_views) {
+        $secret->delete();
+	return abort(404);
+      } else {
+        // Increment the view count
+        $secret->increment('count_views');
+
+        // Get attributes for display
+        $secretDecrypted = Crypt::decryptString($secret->secret);
+        $expires_at = $secret->expires_at;
+        $views_remaining = $secret->expire_views - $secret->count_views;
+      }
     }
-    $encrypted = Crypt::encryptString($uuid);
-    $secret = Secret::where('uuid', '=', $encrypted)->first();
-    dd($secret);
 
     return Inertia::render('Show', [
-      'secret' => $secret
+	    'secret' => $secretDecrypted,
+	    'expires_at' => $expires_at,
+	    'views_remaining' => $views_remaining
     ]);
   }
 
