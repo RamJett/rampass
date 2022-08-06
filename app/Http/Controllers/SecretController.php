@@ -24,9 +24,10 @@ class SecretController extends Controller
   public function create()
   {
     return Inertia::render('Create', [
-      'now' => Carbon::now()->addHour()
+      'views' => 5, // how many views
+      'units' => 'hours', // options minutes, hours, days
+      'time' => 1 // how many 'units'
     ]);
-
   }
 
 
@@ -39,11 +40,8 @@ class SecretController extends Controller
   public function store(Request $request)
   {
     $uuid = Str::uuid();
-    //$timeString = $request->input('expires_date') . ' ' . $request->input('expires_time');
-    //$datetime = Carbon::createFromFormat('Y-m-d H:i', $timeString);
-    //$datetime = $datetime->subHours($request->input('utc_offset'));
-    // placeholders
-    $datetime = Carbon::now()->addHour();
+    $now = Carbon::now();
+    $datetime = $now->addHour();
     $expire_views = 5;
 
     $secret = Secret::create(array(
@@ -76,7 +74,7 @@ class SecretController extends Controller
       // Check for expiry
       if (Carbon::now()->gte($secret->expires_at) || $secret->count_views >= $secret->expire_views) {
         $secret->delete();
-	return abort(404);
+        return abort(404);
       } else {
         // Increment the view count
         $secret->increment('count_views');
@@ -89,9 +87,9 @@ class SecretController extends Controller
     }
 
     return Inertia::render('Show', [
-	    'secret' => $secretDecrypted,
-	    'expires_at' => $expires_at,
-	    'views_remaining' => $views_remaining
+      'secret' => $secretDecrypted,
+      'expires_at' => $expires_at,
+      'views_remaining' => $views_remaining
     ]);
   }
 
