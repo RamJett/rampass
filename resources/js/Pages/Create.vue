@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import Layout from "@/App/Layout.vue";
 import AppButton from "@/App/Button.vue";
 
 const form = useForm({
@@ -21,6 +22,7 @@ const props = defineProps({
 </script>
 
 <template>
+<Layout title="Create">
   <form @submit.prevent="submit">
     <textarea v-model="form.secret" />
 
@@ -36,4 +38,5 @@ const props = defineProps({
       submit
     </AppButton>
   </form>
+</Layout>
 </template>
