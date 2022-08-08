@@ -5,7 +5,7 @@ import AppButton from "@/App/Button.vue";
 
 const form = useForm({
   secret: null,
-  units: props.units,
+  units: props.units_default,
   time: props.time,
   views: props.views,
 });
@@ -15,28 +15,33 @@ const submit = () => {
 };
 
 const props = defineProps({
-  units: String,
+  units: Object,
+  units_default: String,
   time: Number,
   views: Number,
 });
 </script>
 
 <template>
-<Layout title="Create">
-  <form @submit.prevent="submit">
-    <textarea v-model="form.secret" />
+  <Layout title="Create">
+    <form @submit.prevent="submit">
+      <textarea v-model="form.secret" />
 
-    <input type="text" v-model="form.time" />
+      <input type="number" v-model="form.time" />
 
-    <input type="text" v-model="form.units" />
+      <select v-model="form.units">
+        <option v-for="unit in props.units" :value="unit.name" :key="unit.name">
+          {{ unit.name }}
+        </option>
+      </select>
 
-    <input type="text" v-model="form.views" />
-    <AppButton
-      :class="{ 'opacity-25': form.processing }"
-      :disabled="form.processing"
-    >
-      submit
-    </AppButton>
-  </form>
-</Layout>
+      <input type="number" v-model="form.views" />
+      <AppButton
+        :class="{ 'opacity-25': form.processing }"
+        :disabled="form.processing"
+      >
+        submit
+      </AppButton>
+    </form>
+  </Layout>
 </template>

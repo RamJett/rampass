@@ -18,18 +18,22 @@ class SecretController extends Controller
    */
   public function index()
   {
-    return redirect()->route('secret.create');
+    return redirect()->route("secret.create");
   }
 
   public function create()
   {
-    return Inertia::render('Create', [
-      'views' => 5, // how many views
-      'units' => 'hours', // options minutes, hours, days
-      'time' => 1 // how many 'units'
+    return Inertia::render("Create", [
+      "views" => 5, // how many views
+      "units_default" => "hours",
+      "units" => [
+        [ "name" => "hours"],
+        [ "name" => "minutes"],
+        [ "name" => "days"]
+      ],
+      "time" => 1, // how many 'units'
     ]);
   }
-
 
   /**
    * Store a newly created resource in storage.
@@ -44,20 +48,20 @@ class SecretController extends Controller
     $datetime = $now->addHour();
     $expire_views = 5;
 
-    $secret = Secret::create(array(
-      'secret' => Crypt::encryptString($request->input('secret')),
-      'uuid' => crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$'),
-      'expires_at' => $datetime,
-      'expire_views' => $expire_views
-    ));
+    $secret = Secret::create([
+      "secret" => Crypt::encryptString($request->input("secret")),
+      "uuid" => crypt($uuid, '$6$rounds=5000$' . env("APP_SALT") . '$'),
+      "expires_at" => $datetime,
+      "expire_views" => $expire_views,
+    ]);
 
     $expires_at = $secret->expires_at;
     $views_remaining = $secret->expires_views - $secret->count_views;
 
-    return Inertia::render('Store', [
-      'expires_at' => $expires_at,
-      'url' => env('APP_URL') . "/" . $uuid,
-      'views_remaining' => $views_remaining
+    return Inertia::render("Store", [
+      "expires_at" => $expires_at,
+      "url" => env("APP_URL") . "/" . $uuid,
+      "views_remaining" => $views_remaining,
     ]);
   }
 
@@ -69,15 +73,21 @@ class SecretController extends Controller
    */
   public function show($uuid)
   {
-    $secret = Secret::where('uuid', crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$'))->firstOrFail();
+    $secret = Secret::where(
+      "uuid",
+      crypt($uuid, '$6$rounds=5000$' . env("APP_SALT") . '$')
+    )->firstOrFail();
     if (!empty($secret)) {
       // Check for expiry
-      if (Carbon::now()->gte($secret->expires_at) || $secret->count_views >= $secret->expire_views) {
+      if (
+        Carbon::now()->gte($secret->expires_at) ||
+        $secret->count_views >= $secret->expire_views
+      ) {
         $secret->delete();
         return abort(404);
       } else {
         // Increment the view count
-        $secret->increment('count_views');
+        $secret->increment("count_views");
 
         // Get attributes for display
         $secretDecrypted = Crypt::decryptString($secret->secret);
@@ -86,10 +96,10 @@ class SecretController extends Controller
       }
     }
 
-    return Inertia::render('Show', [
-      'secret' => $secretDecrypted,
-      'expires_at' => $expires_at,
-      'views_remaining' => $views_remaining
+    return Inertia::render("Show", [
+      "secret" => $secretDecrypted,
+      "expires_at" => $expires_at,
+      "views_remaining" => $views_remaining,
     ]);
   }
 
