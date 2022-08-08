@@ -43,10 +43,20 @@ class SecretController extends Controller
    */
   public function store(Request $request)
   {
+    // TODO: validation
+
     $uuid = Str::uuid();
     $now = Carbon::now();
-    $datetime = $now->addHour();
-    $expire_views = 5;
+
+    if ($request->units == 'minutes') {
+      $datetime = Carbon::now()->addMinutes($request->time);
+    } elseif ($request->units == 'hours') {
+      $datetime = Carbon::now()->addHours($request->time);
+    } else {
+      $datetime = Carbon::now()->addDays($request->time);
+    }
+
+    $expire_views = $request->views;
 
     $secret = Secret::create([
       'secret' => Crypt::encryptString($request->input('secret')),

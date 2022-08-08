@@ -1,14 +1,15 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import AppButton from "@/App/Button.vue";
+import Layout from '@/App/Layout.vue';
 
 const form = useForm({
-  secret: "",
+  secret: null,
 });
 
-const submit = () => {
-  form.post(route("secret.store"));
-};
+//const submit = () => {
+//  form.post(route("secret.store"));
+//};
 
 defineProps({
   secret: String,
@@ -16,6 +17,7 @@ defineProps({
 </script>
 
 <template>
+<Layout>
   <form @submit.prevent="submit" class="p-4">
     <div class="flex justify-center">
       <div class="mb-3 xl:w-96">
@@ -54,9 +56,10 @@ defineProps({
           :class="{ 'opacity-25': form.processing }"
           :disabled="form.processing"
         >
-          submit
+          Copy
         </AppButton>
       </div>
     </div>
   </form>
+</Layout>
 </template>
