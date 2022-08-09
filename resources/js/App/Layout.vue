@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
   title: String,
@@ -8,7 +8,7 @@ defineProps({
 
 <template>
   <Head :title="title" />
-  <div class="bg-grey-400 font-sans leading-normal tracking-normal">
+  <div class="bg-grey-300 font-sans leading-normal tracking-normal">
     <!--Nav-->
     <nav class="bg-gray-800 p-2 mt-0 fixed w-full z-10 top-0">
       <div class="container mx-auto flex flex-wrap items-center">
@@ -23,14 +23,14 @@ defineProps({
             font-extrabold
           "
         >
-          <Link
+          <a
             class="text-white no-underline hover:text-white hover:no-underline"
-            href="#"
+            href="https://ramnic.com"
           >
             <span class="text-2xl pl-2"
-              ><i class="em em-grinning"></i> RAMNIC</span
+              ><i class="em em-grinning"></i>RAMNIC</span
             >
-          </Link>
+          </a>
         </div>
         <div
           class="
@@ -55,8 +55,8 @@ defineProps({
             <li class="mr-3">
               <Link
                 class="inline-block py-2 px-4 text-white no-underline"
-                href="#"
-                >Active</Link
+                :href="route('secret.create')"
+                >Create</Link
               >
             </li>
             <li class="mr-3">
@@ -70,36 +70,8 @@ defineProps({
                   px-4
                 "
                 href="#"
-                >link</Link
-              >
-            </li>
-            <li class="mr-3">
-              <Link
-                class="
-                  inline-block
-                  text-gray-600
-                  no-underline
-                  hover:text-gray-200 hover:text-underline
-                  py-2
-                  px-4
-                "
-                href="#"
-                >link</Link
-              >
-            </li>
-            <li class="mr-3">
-              <Link
-                class="
-                  inline-block
-                  text-gray-600
-                  no-underline
-                  hover:text-gray-200 hover:text-underline
-                  py-2
-                  px-4
-                "
-                href="#"
-                >link</Link
-              >
+                >About
+              </Link>
             </li>
           </ul>
         </div>
