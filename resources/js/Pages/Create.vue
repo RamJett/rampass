@@ -49,7 +49,7 @@ const props = defineProps({
                 w-full
                 bg-gray-200
                 text-gray-700
-                border border-red-500
+                border border-blue-500
                 rounded
                 py-3
                 px-4
@@ -85,7 +85,7 @@ const props = defineProps({
                 w-full
                 bg-gray-200
                 text-gray-700
-                border border-red-500
+                border border-blue-500
                 rounded
                 py-3
                 px-4
@@ -120,7 +120,7 @@ const props = defineProps({
                 w-full
                 bg-gray-200
                 text-gray-700
-                border border-red-500
+                border border-blue-500
                 rounded
                 py-3
                 px-4
@@ -166,7 +166,7 @@ const props = defineProps({
                 w-full
                 bg-gray-200
                 text-gray-700
-                border border-gray-200
+                border border-blue-500
                 rounded
                 py-3
                 px-4
