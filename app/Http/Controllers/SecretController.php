@@ -18,7 +18,8 @@ class SecretController extends Controller
    */
   public function index()
   {
-    return redirect()->route('secret.create');
+    // Not used. Create route is /
+    // return redirect()->route('secret.create');
   }
 
   public function create()
@@ -49,11 +50,11 @@ class SecretController extends Controller
     $now = Carbon::now();
 
     if ($request->units == 'minutes') {
-      $datetime = Carbon::now()->addMinutes($request->time);
+      $datetime = $now->addMinutes($request->time);
     } elseif ($request->units == 'hours') {
-      $datetime = Carbon::now()->addHours($request->time);
+      $datetime = $now->addHours($request->time);
     } else {
-      $datetime = Carbon::now()->addDays($request->time);
+      $datetime = $now->addDays($request->time);
     }
 
     $expire_views = $request->views;
