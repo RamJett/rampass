@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Secret;
+use App\Models\Maintenance;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
@@ -60,7 +61,7 @@ class SecretController extends Controller
     $expire_views = $request->views;
 
     $secret = Secret::create([
-      'secret' => Crypt::encryptString($request->input('secret')),
+      'secret' => Crypt::encryptString($request->secret),
       'uuid' => crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$'),
       'expires_at' => $datetime,
       'expire_views' => $expire_views,
@@ -100,11 +101,11 @@ class SecretController extends Controller
         // Increment the view count
         $secret->increment('count_views');
 
-        // Get attributes for display
         $secretDecrypted = Crypt::decryptString($secret->secret);
         $expires_at = $secret->expires_at;
         $views_remaining = $secret->expire_views - $secret->count_views;
       }
+      // We should never hit here with empty($secret) because of the ->firstOrFail()
     }
 
     return Inertia::render('Show', [
@@ -117,7 +118,7 @@ class SecretController extends Controller
   /**
    * Remove the specified resource from storage.
    *
-   * @param  int  $id
+   * @param  int  $uuid
    * @return \Illuminate\Http\Response
    */
   public function destroy($uuid)
