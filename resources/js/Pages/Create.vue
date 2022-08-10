@@ -178,14 +178,13 @@ const props = defineProps({
             />
           </div>
         </div>
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-          <AppButton
-            :class="{ 'opacity-25': form.processing }"
-            :disabled="form.processing"
-          >
-            submit
-          </AppButton>
-        </div>
+        <AppButton
+          class="ml-0"
+          :class="{ 'opacity-25': form.processing }"
+          :disabled="form.processing"
+        >
+          Create
+        </AppButton>
       </form>
     </div>
   </Layout>
