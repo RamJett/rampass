@@ -12,6 +12,34 @@ use Carbon\Carbon;
 
 class SecretController extends Controller
 {
+  public function __construct()
+  {
+    $maintenance = Maintenance::where('job', 'expire_secrets')->firstOrCreate([
+      'job' => 'expire_secrets',
+    ]);
+    // increate counter_expire, defaults to 0 and expire_counts defaults to 20
+    $maintenance->increment('counter_expire');
+
+    // TODO: only run when counter_expire > expire_counts and then reset
+    $this->expire_secret_by_expires_at();
+  }
+
+  private function expire_secret_by_expires_at()
+  {
+    $now = Carbon::now();
+    $secret = Secret::query()
+      ->whereDate('expires_at', '>=', $now->toDateString())
+      ->delete();
+
+
+    /*
+    if (!empty($secret))
+    {
+      $secret->delete();
+    }
+*/
+  }
+
   /**
    * Show the form for creating a new resource.
    *

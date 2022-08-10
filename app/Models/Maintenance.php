@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Maintenance extends Model
 {
   use HasFactory;
+
+  protected $fillable = ['job', 'counter_expire', 'expire_counts'];
 }

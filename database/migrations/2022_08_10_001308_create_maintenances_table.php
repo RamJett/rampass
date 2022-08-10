@@ -16,8 +16,8 @@ return new class extends Migration {
       $table->id();
       $table->timestamps();
       $table->string('job');
-      $table->unsignedInteger('counter_expire');
-      $table->unsignedInteger('expire_counts');
+      $table->unsignedInteger('counter_expire')->default(0);
+      $table->unsignedInteger('expire_counts')->default(20);
     });
   }
 
