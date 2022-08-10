@@ -3,13 +3,15 @@ import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import AppButton from '@/App/Button.vue';
 import Layout from '@/App/Layout.vue';
 
-const form = useForm({
-  secret: '',
-});
+const useClipboard = (text) => {
+  let supported = navigator && 'clipboard' in navigator;
 
-//const submit = () => {
-//  form.post(route("secret.store"));
-//};
+  if (supported) {
+    navigator.clipboard.writeText(text);
+  }
+
+  return { supported };
+};
 
 defineProps({
   url: String,
@@ -21,7 +23,7 @@ defineProps({
 <template>
   <Layout>
     <div class="flex items-center justify-center p-4">
-      <form @submit.prevent="submit" class="w-full max-w-lg">
+      <div class="w-full max-w-lg">
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full px-3">
             <label
@@ -57,16 +59,12 @@ defineProps({
               id="url"
               rows="3"
             ></textarea>
-            <AppButton
-              class="ml-1 mt-2"
-              :class="{ 'opacity-25': form.processing }"
-              :disabled="form.processing"
-            >
+            <AppButton class="ml-0 mt-2" @click="useClipboard(url)">
               Copy
             </AppButton>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </Layout>
 </template>
