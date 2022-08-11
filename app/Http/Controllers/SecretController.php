@@ -20,24 +20,17 @@ class SecretController extends Controller
     // increate counter_expire, defaults to 0 and expire_counts defaults to 20
     $maintenance->increment('counter_expire');
 
-    // TODO: only run when counter_expire > expire_counts and then reset
-    $this->expire_secret_by_expires_at();
+    if ($maintenance->expire_counts < $maintenance->counter_expire) {
+      $maintenance->update(['counter_expire' => 1]);
+      $this->expire_secret_by_expires_at();
+    }
   }
 
   private function expire_secret_by_expires_at()
   {
-    $now = Carbon::now();
     $secret = Secret::query()
-      ->whereDate('expires_at', '>=', $now->toDateString())
+      ->where('expires_at', '<=', now())
       ->delete();
-
-
-    /*
-    if (!empty($secret))
-    {
-      $secret->delete();
-    }
-*/
   }
 
   /**
