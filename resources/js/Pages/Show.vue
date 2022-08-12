@@ -2,6 +2,7 @@
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import AppButton from '@/App/Button.vue';
 import Layout from '@/App/Layout.vue';
+import Label from '@/App/Label.vue';
 
 const useClipboard = (text) => {
   let supported = navigator && 'clipboard' in navigator;
@@ -23,19 +24,7 @@ defineProps({
     <div class="p-4">
       <div class="flex justify-center">
         <div class="mb-3 xl:w-96">
-          <label
-            for="secret"
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-gray-700 text-xs
-              font-bold
-              mb-2
-            "
-            >Secret</label
-          >
-
+          <Label for="secret" value="Secret" class="mb-2" />
           <textarea
             v-model="secret"
             readonly="true"
