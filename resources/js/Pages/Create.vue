@@ -3,6 +3,9 @@ import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import Layout from '@/App/Layout.vue';
 import AppButton from '@/App/Button.vue';
 import Label from '@/App/Label.vue';
+import Input from '@/App/Input.vue';
+import Textarea from '@/App/Textarea.vue';
+import Select from '@/App/Select.vue';
 
 const form = useForm({
   secret: null,
@@ -18,8 +21,8 @@ const submit = () => {
 const props = defineProps({
   units: Array,
   units_default: String,
-  time: Number,
-  views: Number,
+  time: String,
+  views: String,
 });
 </script>
 
@@ -30,70 +33,32 @@ const props = defineProps({
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full px-3">
             <Label for="secret" value="Secret" class="mb-2" />
-            <textarea
+            <Textarea
               v-model="form.secret"
-              class="
-                appearance-none
-                block
-                w-full
-                bg-gray-200
-                text-gray-700
-                border border-blue-500
-                rounded
-                py-3
-                px-4
-                mb-3
-                leading-tight
-                focus:outline-none focus:bg-white
-              "
               id="secret"
               placeholder="Type secret here"
+              class="w-full py-3 px-4 mb-3"
             />
           </div>
         </div>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <Label for="time" value="Time" class="mb-2" />
-            <input
+            <Input
               v-model="form.time"
-              class="
-                appearance-none
-                block
-                w-full
-                bg-gray-200
-                text-gray-700
-                border border-blue-500
-                rounded
-                py-3
-                px-4
-                mb-3
-                leading-tight
-                focus:outline-none focus:bg-white
-              "
-              id="time"
               type="number"
               min="1"
+              id="time"
+              class="py-3 px-4 mb-3"
+              required
             />
           </div>
           <div class="w-full md:w-1/2 px-3">
             <Label for="units" value="Units" class="mb-2" />
-            <select
+            <Select
               v-model="form.units"
-              class="
-                appearance-none
-                block
-                w-full
-                bg-gray-200
-                text-gray-700
-                border border-blue-500
-                rounded
-                py-3
-                px-4
-                mb-3
-                leading-tight
-                focus:outline-none focus:bg-white
-              "
               id="units"
+              class="w-full py-3 px-4 mb-3"
             >
               <option
                 v-for="unit in props.units"
@@ -102,32 +67,19 @@ const props = defineProps({
               >
                 {{ unit.name }}
               </option>
-            </select>
+            </Select>
           </div>
         </div>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full px-3">
             <Label for="views" value="Views" class="mb-2" />
-
-            <input
-              type="number"
+            <Input
               v-model="form.views"
               id="views"
+              type="number"
               min="1"
-              class="
-                appearance-none
-                block
-                w-full
-                bg-gray-200
-                text-gray-700
-                border border-blue-500
-                rounded
-                py-3
-                px-4
-                mb-3
-                leading-tight
-                focus:outline-none focus:bg-white focus:border-gray-500
-              "
+              class="w-full py-3 px-4 mb-3"
+              required
             />
           </div>
         </div>
