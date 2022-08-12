@@ -89,7 +89,7 @@ class SecretController extends Controller
     ]);
 
     $expires_at = $secret->expires_at;
-    $views_remaining = $secret->expires_views - $secret->count_views;
+    $views_remaining = $secret->expire_views - $secret->count_views;
 
     return Inertia::render('Store', [
       'expires_at' => $expires_at,
@@ -110,7 +110,7 @@ class SecretController extends Controller
       'uuid',
       crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$')
     )->firstOrFail();
-    if (!empty($secret)) {
+    if (!empty($secret->secret)) {
       // Check for expiry
       if (
         Carbon::now()->gte($secret->expires_at) ||
@@ -126,7 +126,8 @@ class SecretController extends Controller
         $expires_at = $secret->expires_at;
         $views_remaining = $secret->expire_views - $secret->count_views;
       }
-      // We should never hit here with empty($secret) because of the ->firstOrFail()
+    } else {
+      return abort(404);
     }
 
     return Inertia::render('Show', [
