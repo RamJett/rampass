@@ -47,14 +47,14 @@ class SecretController extends Controller
   public function create()
   {
     return Inertia::render('Create', [
-      'views' => 5, // how many views
+      'views' => '5', // how many views
       'units_default' => 'hours',
       'units' => [
         ['name' => 'hours'],
         ['name' => 'minutes'],
         ['name' => 'days'],
       ],
-      'time' => 1, // how many 'units'
+      'time' => '1', // how many 'units'
     ]);
   }
 
