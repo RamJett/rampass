@@ -15,7 +15,15 @@ class SecretController extends Controller
 {
   public function store(Request $request)
   {
+    $uuid = Str::uuid();
 
+    if ($request->units == 'minutes') {
+      $datetime = Carbon::now()->addMinutes($request->time);
+    } elseif ($request->units == 'hours') {
+      $datetime = Carbon::now()->addHours($request->time);
+    } else {
+      $datetime = Carbon::now()->addDays($request->time);
+    }
     // First make sure content-type is application/json
     $request->merge([
       'content_type' => Str::lower($request->header('Content-Type')),
@@ -37,17 +45,6 @@ class SecretController extends Controller
         ],
         422
       );
-    }
-
-    $uuid = Str::uuid();
-    $now = Carbon::now();
-
-    if ($request->units == 'minutes') {
-      $datetime = $now->addMinutes($request->time);
-    } elseif ($request->units == 'hours') {
-      $datetime = $now->addHours($request->time);
-    } else {
-      $datetime = $now->addDays($request->time);
     }
 
     $expire_views = $request->views;
@@ -75,7 +72,6 @@ class SecretController extends Controller
 
   public function show($uuid)
   {
-
     //TODO: validation on $uuid
 
     $secret = Secret::where(
