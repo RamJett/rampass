@@ -15,7 +15,6 @@ class SecretController extends Controller
 {
   public function store(Request $request)
   {
-    // TODO: validation
 
     // First make sure content-type is application/json
     $request->merge([
@@ -67,6 +66,7 @@ class SecretController extends Controller
       'status' => 'success',
       'data' => [
         'url' => env('APP_URL') . '/' . $uuid,
+        'api_url' => env('APP_URL') . '/api/' . $uuid,
         'expires_at' => $expires_at,
         'views_remaining' => $views_remaining,
       ],
@@ -75,6 +75,9 @@ class SecretController extends Controller
 
   public function show($uuid)
   {
+
+    //TODO: validation on $uuid
+
     $secret = Secret::where(
       'uuid',
       crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$')
