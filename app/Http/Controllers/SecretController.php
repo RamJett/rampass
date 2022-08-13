@@ -66,18 +66,30 @@ class SecretController extends Controller
    */
   public function store(Request $request)
   {
-    // TODO: validation
-
     $uuid = Str::uuid();
-    $now = Carbon::now();
 
-    if ($request->units == 'minutes') {
-      $datetime = $now->addMinutes($request->time);
+    if ($request->units == 'days') {
+      $datetime = Carbon::now()->addDays($request->time);
     } elseif ($request->units == 'hours') {
-      $datetime = $now->addHours($request->time);
+      $datetime = Carbon::now()->addHours($request->time);
     } else {
-      $datetime = $now->addDays($request->time);
+      $datetime = Carbon::now()->addMinutes($request->time);
     }
+
+    $request->merge([
+      'content_type' => Str::lower($request->header('Content-Type')),
+      'date_expires' => $datetime,
+    ]);
+
+    $validator = $request->validate([
+      'date_expires' =>
+        'required|date|before_or_equal:' . Carbon::now()->addMonth(),
+      'content_type' => 'required|starts_with:application/json',
+      'time' => 'required|integer|gte:1',
+      'views' => 'required|integer|gte:1',
+      'units' => 'required|in:minutes,hours,days',
+      'secret' => 'required',
+    ]);
 
     $expire_views = $request->views;
 
