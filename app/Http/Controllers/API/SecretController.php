@@ -75,7 +75,21 @@ class SecretController extends Controller
 
   public function show($uuid)
   {
-    //TODO: validation on $uuid
+    $input = ['uuid' => $uuid];
+
+    $validator = Validator::make($input, [
+      'uuid' => 'uuid',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json(
+        [
+          'status' => 'fail',
+          'errors' => $validator->errors()->all(),
+        ],
+        422
+      );
+    }
 
     $secret = Secret::where(
       'uuid',
