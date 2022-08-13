@@ -17,12 +17,12 @@ class SecretController extends Controller
   {
     $uuid = Str::uuid();
 
-    if ($request->units == 'minutes') {
-      $datetime = Carbon::now()->addMinutes($request->time);
+    if ($request->units == 'days') {
+      $datetime = Carbon::now()->addDays($request->time);
     } elseif ($request->units == 'hours') {
       $datetime = Carbon::now()->addHours($request->time);
     } else {
-      $datetime = Carbon::now()->addDays($request->time);
+      $datetime = Carbon::now()->addMinutes($request->time);
     }
     // First make sure content-type is application/json
     $request->merge([
