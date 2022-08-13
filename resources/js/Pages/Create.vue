@@ -6,6 +6,7 @@ import Label from '@/App/Label.vue';
 import Input from '@/App/Input.vue';
 import Textarea from '@/App/Textarea.vue';
 import Select from '@/App/Select.vue';
+import ValidationErrors from '@/App/ValidationErrors.vue';
 
 const form = useForm({
   secret: null,
@@ -30,6 +31,7 @@ const props = defineProps({
   <Layout title="Create">
     <div class="flex items-center justify-center p-4">
       <div class="w-full max-w-lg">
+        <ValidationErrors />
         <form @submit.prevent="submit">
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
@@ -59,11 +61,10 @@ const props = defineProps({
               <Label for="units" value="Units" class="mb-2" />
               <Select
                 v-model="form.units"
+                :options="props.units"
                 id="units"
                 class="w-full py-3 px-4 mb-3"
-                :options="props.units"
-              >
-              </Select>
+              />
             </div>
           </div>
           <div class="flex flex-wrap -mx-3 mb-6">
