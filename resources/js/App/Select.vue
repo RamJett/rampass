@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue';
 
 defineProps({
   modelValue: String,
+  options: Array,
 });
 
 defineEmits(['update:modelValue']);
@@ -33,6 +34,13 @@ defineExpose({ focus: () => input.value.focus() });
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
   >
-    <slot />
+    <option
+      v-if="options"
+      v-for="option in options"
+      :value="option.name"
+      :key="option.name"
+      v-text="option.name"
+    />
+    <slot v-else />
   </select>
 </template>

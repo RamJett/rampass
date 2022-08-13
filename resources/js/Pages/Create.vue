@@ -61,14 +61,8 @@ const props = defineProps({
                 v-model="form.units"
                 id="units"
                 class="w-full py-3 px-4 mb-3"
+                :options="props.units"
               >
-                <option
-                  v-for="unit in props.units"
-                  :value="unit.name"
-                  :key="unit.name"
-                >
-                  {{ unit.name }}
-                </option>
               </Select>
             </div>
           </div>
