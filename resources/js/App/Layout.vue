@@ -79,6 +79,8 @@ defineProps({
     </nav>
 
     <main class="container shadow-lg mx-auto bg-grey-300 mt-24 md:mt-18">
+      <!-- TODO: We need to format this and loops over notification -->
+      <div v-if="$page.props.flash.notification">{{ $page.props.flash.notification }}</div> 
       <slot />
     </main>
   </div>
