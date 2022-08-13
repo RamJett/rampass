@@ -27,9 +27,12 @@ class SecretController extends Controller
     // First make sure content-type is application/json
     $request->merge([
       'content_type' => Str::lower($request->header('Content-Type')),
+      'date_expires' => $datetime,
     ]);
 
     $validator = Validator::make($request->all(), [
+      'date_expires' =>
+        'required|date|before_or_equal:' . Carbon::now()->addMonth(),
       'content_type' => 'required|starts_with:application/json',
       'time' => 'required|integer|gte:1',
       'views' => 'required|integer|gte:1',
