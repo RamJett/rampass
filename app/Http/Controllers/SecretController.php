@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Secret;
 use App\Models\Maintenance;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -118,6 +120,15 @@ class SecretController extends Controller
    */
   public function show($uuid)
   {
+    $input = ['uuid' => $uuid];
+    $validator = Validator::make($input, [
+      'uuid' => 'uuid',
+    ]);
+
+    if ($validator->fails()) {
+      abort(404);
+    }
+
     $secret = Secret::where(
       'uuid',
       crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$')
@@ -157,6 +168,22 @@ class SecretController extends Controller
    */
   public function destroy($uuid)
   {
-    //
+    $input = ['uuid' => $uuid];
+    $validator = Validator::make($input, [
+      'uuid' => 'uuid',
+    ]);
+
+    if ($validator->fails()) {
+      abort(404);
+    }
+
+    $secret = Secret::where(
+      'uuid',
+      crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$')
+    )->firstOrFail();
+
+    if (!empty($secret->uuid)) {
+      $secret->delete();
+    }
   }
 }
