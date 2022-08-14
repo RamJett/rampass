@@ -157,6 +157,7 @@ class SecretController extends Controller
       'secret' => $secretDecrypted,
       'expires_at' => $expires_at,
       'views_remaining' => $views_remaining,
+      'uuid' => $uuid,
     ]);
   }
 
@@ -186,9 +187,8 @@ class SecretController extends Controller
       $secret->delete();
     }
 
-    return Redirect::to('secret.create')->with(
-      'notification',
-      'Deleted Secret'
-    );
+    return redirect()
+      ->route('secret.create')
+      ->with('notification', 'Successfully deleted secret.');
   }
 }

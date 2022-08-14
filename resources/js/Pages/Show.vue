@@ -1,4 +1,5 @@
 <script setup>
+import { Inertia } from "@inertiajs/inertia";
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import AppButton from '@/App/Button.vue';
 import Layout from '@/App/Layout.vue';
@@ -15,8 +16,13 @@ const useClipboard = (text) => {
   return { supported };
 };
 
+const destroy = (uuid) => {
+  Inertia.delete('/' + uuid);
+};
+
 defineProps({
   secret: String,
+  uuid: String,
 });
 </script>
 
@@ -37,6 +43,7 @@ defineProps({
           <AppButton class="ml-0 mt-2" @click="useClipboard(secret)">
             Copy
           </AppButton>
+          <AppButton class="ml-0 mt-2" @click="destroy(uuid)">Delete</AppButton>
         </div>
       </div>
     </div>

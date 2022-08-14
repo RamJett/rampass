@@ -18,4 +18,4 @@ use App\Http\Controllers\SecretController;
 Route::get('/', [SecretController::class, 'create'])->name('secret.create');
 Route::post('/', [SecretController::class, 'store'])->name('secret.store');
 Route::get('/{uuid}', [SecretController::class, 'show'])->name('secret.show');
-Route::delete('/{uuid}', [SecretController::class, 'delete'])->name('secret.delete');
+Route::delete('/{uuid}', [SecretController::class, 'destroy'])->name('secret.delete');
