@@ -185,5 +185,10 @@ class SecretController extends Controller
     if (!empty($secret->uuid)) {
       $secret->delete();
     }
+
+    return Redirect::to('secret.create')->with(
+      'notification',
+      'Deleted Secret'
+    );
   }
 }
