@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <Head :title="title" />
-  <section class="px-6 py-8">
+  <section class="border px-6 py-8">
     <TopNav />
   </section>
   <header class="max-w-4xl mx-auto mt-10 text-center">
@@ -22,5 +22,7 @@ defineProps({
   <main>
     <slot name="main" />
   </main>
-  <footer></footer>
+  <footer>
+    <slot name="footer" />
+  </footer>
 </template>

@@ -29,9 +29,9 @@ const props = defineProps({
 
 <template>
   <Layout title="Create">
-    <template #header></template>
+   <template #header></template>
     <template #main>
-      <div class="flex items-center justify-center p-4">
+      <div class="flex justify-center">
         <div class="w-full max-w-lg">
           <ValidationErrors />
           <form @submit.prevent="submit">
