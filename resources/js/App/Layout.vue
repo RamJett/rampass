@@ -10,7 +10,7 @@ defineProps({
   <Head :title="title" />
   <div class="bg-grey-300 font-sans leading-normal tracking-normal">
     <!--Nav-->
-    <nav class="bg-gray-800 p-2 mt-0 fixed w-full z-10 top-0">
+    <nav class="bg-gray-500 p-2 mt-0 fixed w-full z-10 top-0">
       <div class="container mx-auto flex flex-wrap items-center">
         <div
           class="

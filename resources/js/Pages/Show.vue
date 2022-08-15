@@ -1,5 +1,5 @@
 <script setup>
-import { Inertia } from "@inertiajs/inertia";
+import { Inertia } from '@inertiajs/inertia';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import AppButton from '@/App/Button.vue';
 import Layout from '@/App/Layout.vue';
@@ -40,10 +40,14 @@ defineProps({
             rows="3"
             placeholder="Your secret"
           />
-          <AppButton class="ml-0 mt-2" @click="useClipboard(secret)">
-            Copy
-          </AppButton>
-          <AppButton class="ml-0 mt-2" @click="destroy(uuid)">Delete</AppButton>
+          <div class="flex justify-between">
+            <AppButton class="ml-0 mt-2" @click="useClipboard(secret)">
+              Copy
+            </AppButton>
+            <AppButton class="ml-0 mt-2" @click="destroy(uuid)">
+              Delete
+            </AppButton>
+          </div>
         </div>
       </div>
     </div>
