@@ -14,9 +14,13 @@ defineProps({
   </section>
   <header class="max-w-4xl mx-auto mt-10 text-center">
     <div class="max-w-xl mx-auto">
-      <h1 class="text-4xl"><slot name="header" /></h1>
+      <h1 class="text-4xl">
+        <slot name="header" />
+      </h1>
     </div>
   </header>
-  <main><slot name="main" /></main>
+  <main>
+    <slot name="main" />
+  </main>
   <footer></footer>
 </template>
