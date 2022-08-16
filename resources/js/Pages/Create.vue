@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { useForm } from '@inertiajs/inertia-vue3';
 import Layout from '@/App/LayoutLight.vue';
 import AppButton from '@/App/Button.vue';
 import Label from '@/App/Label.vue';
