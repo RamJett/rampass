@@ -1,6 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/inertia-vue3';
 import TopNav from '@/App/TopNav.vue';
+import Flash from '@/App/Flash.vue';
 
 defineProps({
   title: String,
@@ -9,10 +10,11 @@ defineProps({
 
 <template>
   <Head :title="title" />
-  <section class="border px-6 py-8">
+  <section class="px-3 py-3">
     <TopNav />
   </section>
   <header class="max-w-4xl mx-auto mt-10 text-center">
+    <Flash />
     <div class="max-w-xl mx-auto">
       <h1 class="text-4xl">
         <slot name="header" />
