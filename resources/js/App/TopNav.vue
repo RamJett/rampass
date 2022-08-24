@@ -10,8 +10,12 @@ import { Link } from '@inertiajs/inertia-vue3';
       </Link>
     </div>
     <div>
-      <Link :href="route('secret.create')" class="text-xs font-bold uppercase">Create</Link>
-      <Link href="/about" class="text-xs font-bold uppercase ml-3">About</Link>
+      <Link :href="route('secret.create')" class="text-xs font-bold uppercase">
+        Create
+      </Link>
+      <Link href="/about" class="text-xs font-bold uppercase ml-3">
+        About
+      </Link>
     </div>
   </nav>
 </template>
