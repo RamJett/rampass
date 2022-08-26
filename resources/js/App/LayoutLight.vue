@@ -10,8 +10,8 @@ defineProps({
 
 <template>
   <Head :title="title" />
-  <section class="px-3 py-3">
-    <TopNav />
+  <section>
+    <TopNav class="border p-4" />
   </section>
   <header class="max-w-4xl mx-auto mt-10 text-center">
     <Flash />
