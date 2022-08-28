@@ -1,10 +1,15 @@
 {
-  "name": "laravel/laravel",
+  "name": "ramjett/rampass",
   "type": "project",
-  "description": "The Laravel Framework.",
+  "description": "Password, secret, sharing application.",
   "keywords": [
-    "framework",
-    "laravel"
+    "laravel",
+    "ramnic",
+    "rampress",
+    "rampass",
+    "password",
+    "pusher",
+    "sharing"
   ],
   "license": "MIT",
   "require": {
