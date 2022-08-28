@@ -13,6 +13,27 @@ use Carbon\Carbon;
 
 class SecretController extends Controller
 {
+  public function __construct()
+  {
+    $maintenance = Maintenance::where('job', 'expire_secrets')->firstOrCreate([
+      'job' => 'expire_secrets',
+    ]);
+    // increate counter_expire, defaults to 0 and expire_counts defaults to 20
+    $maintenance->increment('counter_expire');
+
+    if ($maintenance->expire_counts < $maintenance->counter_expire) {
+      $maintenance->update(['counter_expire' => 1]);
+      $this->expire_secret_by_expires_at();
+    }
+  }
+
+  private function expire_secret_by_expires_at()
+  {
+    $secret = Secret::query()
+      ->where('expires_at', '<=', now())
+      ->delete();
+  }
+
   public function store(Request $request)
   {
     $uuid = Str::uuid();
