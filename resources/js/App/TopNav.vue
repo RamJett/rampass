@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
-  <div>
+  <div class="bg-blue-200">
     <nav class="flex justify-between items-center">
       <div>
         <Link :href="route('secret.create')">
