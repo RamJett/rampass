@@ -20,7 +20,7 @@ const destroy = (uuid) => {
   Inertia.delete('/' + uuid);
 };
 
-defineProps({
+const props = defineProps({
   secret: String,
   uuid: String,
 });
@@ -34,7 +34,7 @@ defineProps({
           <div class="mb-3 xl:w-96">
             <Label for="secret" value="Secret" class="mb-2" />
             <Textarea
-              v-model="secret"
+              v-model="props.secret"
               readonly="true"
               class="w-full py-3 px-4 mb-3"
               id="secret"

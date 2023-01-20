@@ -15,7 +15,7 @@ const useClipboard = (text) => {
   return { supported };
 };
 
-defineProps({
+const props = defineProps({
   url: String,
   expires_at: String,
   views_remaining: Number,
@@ -35,7 +35,7 @@ defineProps({
                 class="mb-2"
               />
               <Textarea
-                v-model="url"
+                v-model="props.url"
                 readonly="true"
                 class="w-full py-3 px-4 mb-3"
                 id="url"
