@@ -1,12 +1,12 @@
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
-import Layout from '@/App/LayoutLight.vue';
-import AppButton from '@/App/Button.vue';
-import Label from '@/App/Label.vue';
-import Input from '@/App/Input.vue';
-import Textarea from '@/App/Textarea.vue';
-import Select from '@/App/Select.vue';
-import ValidationErrors from '@/App/ValidationErrors.vue';
+import { useForm } from "@inertiajs/inertia-vue3";
+import Layout from "@/App/LayoutLight.vue";
+import AppButton from "@/App/Button.vue";
+import Label from "@/App/Label.vue";
+import Input from "@/App/Input.vue";
+import Textarea from "@/App/Textarea.vue";
+import Select from "@/App/Select.vue";
+import ValidationErrors from "@/App/ValidationErrors.vue";
 
 const form = useForm({
   secret: null,
@@ -16,7 +16,7 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.post(route('secret.store'));
+  form.post(route("secret.store"));
 };
 
 const props = defineProps({
@@ -29,7 +29,7 @@ const props = defineProps({
 
 <template>
   <Layout title="Create">
-   <template #header></template>
+    <template #header></template>
     <template #main>
       <div class="flex justify-center">
         <div class="w-full max-w-lg">
