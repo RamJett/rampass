@@ -17,7 +17,7 @@ return new class extends Migration
 
       $table->id();
       $table->timestamps();
-      $table->timestamp('expires_at');
+      $table->timestamp('expires_at')->nullable()->default(null);
       $table->text('uuid');
       $table->text('secret');
       $table->unsignedBigInteger('count_views')->default(0);
