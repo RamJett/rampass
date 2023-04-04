@@ -3,10 +3,12 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Str;
 
 class SaltGenerateCommand extends Command
 {
+  use ConfirmableTrait;
 
   /**
    * The name and signature of the console command.
