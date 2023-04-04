@@ -126,6 +126,13 @@ return [
     'cipher' => 'AES-256-CBC',
 
     /*
+    |----
+    | Salt is much like the above key but used the encrypt the password in the database
+    */
+
+    'salt' => env('APP_SALT'),
+
+    /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------
