@@ -1,6 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { router, Head, Link, useForm } from '@inertiajs/vue3';
 import AppButton from '@/App/Button.vue';
 import Layout from '@/App/LayoutLight.vue';
 import Label from '@/App/Label.vue';
@@ -17,7 +16,7 @@ const useClipboard = (text) => {
 };
 
 const destroy = (uuid) => {
-  Inertia.delete('/' + uuid);
+  router.delete('/' + uuid);
 };
 
 const props = defineProps({
@@ -27,7 +26,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <Layout title="Show secret">
+  <Layout title="Show Secret">
     <template #main>
       <div class="p-4">
         <div class="flex justify-center">

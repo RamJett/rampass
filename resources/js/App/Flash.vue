@@ -1,10 +1,10 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
-import { usePage } from '@inertiajs/inertia-vue3';
+import { usePage } from '@inertiajs/vue3';
 
 const show = ref(true);
 const notification = computed(
-  () => usePage().props.value.flash?.notification || false
+  () => usePage().props.flash?.notification || false
 );
 
 // TODO: All usePage().props.value.flash?.message too

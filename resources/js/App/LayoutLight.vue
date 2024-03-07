@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/vue3';
 import TopNav from '@/App/TopNav.vue';
 import Flash from '@/App/Flash.vue';
 

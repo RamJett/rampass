@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import AppButton from '@/App/Button.vue';
 import Layout from '@/App/LayoutLight.vue';
 import Label from '@/App/Label.vue';
@@ -22,8 +22,8 @@ const props = defineProps({
 });
 </script>
 
-<template title="Saved Secret">
-  <Layout>
+<template>
+  <Layout title="Saved Secret">
     <template #main>
       <div class="flex items-center justify-center p-4">
         <div class="w-full max-w-lg">
