@@ -22,8 +22,8 @@ const props = defineProps({
 });
 </script>
 
-<template title="Saved Secret">
-  <Layout>
+<template>
+  <Layout title="Saved Secret">
     <template #main>
       <div class="flex items-center justify-center p-4">
         <div class="w-full max-w-lg">

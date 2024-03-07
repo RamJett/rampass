@@ -26,7 +26,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <Layout title="Show secret">
+  <Layout title="Show Secret">
     <template #main>
       <div class="p-4">
         <div class="flex justify-center">
