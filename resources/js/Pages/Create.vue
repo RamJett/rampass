@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import Layout from "@/App/LayoutLight.vue";
 import AppButton from "@/App/Button.vue";
 import Label from "@/App/Label.vue";
@@ -7,6 +7,13 @@ import Input from "@/App/Input.vue";
 import Textarea from "@/App/Textarea.vue";
 import Select from "@/App/Select.vue";
 import ValidationErrors from "@/App/ValidationErrors.vue";
+
+const props = defineProps({
+  units: Array,
+  units_default: String,
+  time: String,
+  views: String,
+});
 
 const form = useForm({
   secret: null,
@@ -18,13 +25,6 @@ const form = useForm({
 const submit = () => {
   form.post(route("secret.store"));
 };
-
-const props = defineProps({
-  units: Array,
-  units_default: String,
-  time: String,
-  views: String,
-});
 </script>
 
 <template>
