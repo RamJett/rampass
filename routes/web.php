@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SecretController;
+use App\Http\Controllers\AboutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,4 @@ Route::get('/', [SecretController::class, 'create'])->name('secret.create');
 Route::post('/', [SecretController::class, 'store'])->name('secret.store');
 Route::get('/{uuid}', [SecretController::class, 'show'])->name('secret.show');
 Route::delete('/{uuid}', [SecretController::class, 'destroy'])->name('secret.delete');
+Route::get('/page/about', [AboutController::class, 'index'])->name('about.index');
