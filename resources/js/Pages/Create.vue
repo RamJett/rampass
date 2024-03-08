@@ -1,6 +1,6 @@
 <script setup>
 import { useForm, usePage } from "@inertiajs/vue3";
-import Layout from "@/App/LayoutLight.vue";
+import Layout from "@/App/Layout.vue";
 import AppButton from "@/App/Button.vue";
 import Label from "@/App/Label.vue";
 import Input from "@/App/Input.vue";

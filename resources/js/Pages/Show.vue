@@ -1,7 +1,7 @@
 <script setup>
 import { router, Head, Link, useForm } from '@inertiajs/vue3';
 import AppButton from '@/App/Button.vue';
-import Layout from '@/App/LayoutLight.vue';
+import Layout from '@/App/Layout.vue';
 import Label from '@/App/Label.vue';
 import Textarea from '@/App/Textarea.vue';
 
