@@ -5,6 +5,7 @@ import Layout from '@/App/Layout.vue';
 import Label from '@/App/Label.vue';
 import Textarea from '@/App/Textarea.vue';
 
+const cancopy = !!navigator.clipboard;
 const useClipboard = (text) => {
   let supported = navigator && 'clipboard' in navigator;
 
@@ -41,9 +42,10 @@ const props = defineProps({
                 id="url"
                 rows="3"
               />
-              <AppButton class="ml-0 mt-2" @click="useClipboard(url)">
+              <AppButton v-if="cancopy" class="ml-0 mt-2" @click="useClipboard(url)">
                 Copy
               </AppButton>
+              <div v-else class="ml-0 mt-2">Share link above</div>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import Layout from '@/App/Layout.vue';
 import Label from '@/App/Label.vue';
 import Textarea from '@/App/Textarea.vue';
 
+const cancopy = !!navigator.clipboard;
 const useClipboard = (text) => {
   let supported = navigator && 'clipboard' in navigator;
 
@@ -41,7 +42,7 @@ const props = defineProps({
               placeholder="Your secret"
             />
             <div class="flex justify-between">
-              <AppButton class="ml-0 mt-2" @click="useClipboard(secret)">
+              <AppButton v-if="cancopy" class="ml-0 mt-2" @click="useClipboard(secret)">
                 Copy
               </AppButton>
               <AppButton class="ml-0 mt-2" @click="destroy(uuid)">
