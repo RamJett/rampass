@@ -7,7 +7,7 @@ const notification = computed(
   () => usePage().props.flash?.notification || false
 );
 
-// TODO: All usePage().props.value.flash?.message too
+// TODO: All usePage().props.flash?.message too
 
 watch(notification, async () => {
   show.value = true;
