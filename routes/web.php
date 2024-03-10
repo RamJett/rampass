@@ -21,3 +21,4 @@ Route::post('/', [SecretController::class, 'store'])->name('secret.store');
 Route::get('/{uuid}', [SecretController::class, 'show'])->name('secret.show');
 Route::delete('/{uuid}', [SecretController::class, 'destroy'])->name('secret.delete');
 Route::get('/page/about', [AboutController::class, 'index'])->name('about.index');
+Route::get('/page/togithub', [AboutController::class, 'togithub'])->name('about.togithub');
