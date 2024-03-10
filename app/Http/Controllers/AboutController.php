@@ -11,4 +11,9 @@ class AboutController extends Controller
   {
     return Inertia::render('About');
   }
+
+  public function togithub()
+  {
+    return Inertia::location("https://github.com/RamJett/rampass");
+  }
 }
