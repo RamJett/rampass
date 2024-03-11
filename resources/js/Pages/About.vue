@@ -3,7 +3,7 @@ import Layout from "@/App/Layout.vue";
 import AppButton from "@/App/Button.vue";
 
 const github = () => {
-  window.open(route("about.togithub"), "_blank")
+  window.open(route("about.togithub"), "_blank");
 };
 </script>
 
@@ -24,7 +24,8 @@ const github = () => {
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
             Share your secrets in a more secure way.
           </p>
-          <AppButton @click="github"
+          <AppButton
+            @click="github"
             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             See on github
@@ -43,7 +44,7 @@ const github = () => {
                 d="M1 5h12m0 0L9 1m4 4L9 9"
               />
             </svg>
-          </appButton>
+          </AppButton>
         </div>
       </div>
     </template>
