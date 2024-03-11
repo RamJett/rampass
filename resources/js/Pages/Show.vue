@@ -1,13 +1,13 @@
 <script setup>
-import { router, Head, Link, useForm } from '@inertiajs/vue3';
-import AppButton from '@/App/Button.vue';
-import Layout from '@/App/Layout.vue';
-import Label from '@/App/Label.vue';
-import Textarea from '@/App/Textarea.vue';
+import { router, Head, Link, useForm } from "@inertiajs/vue3";
+import AppButton from "@/App/Button.vue";
+import Layout from "@/App/Layout.vue";
+import Label from "@/App/Label.vue";
+import Textarea from "@/App/Textarea.vue";
 
 const cancopy = !!navigator.clipboard;
 const useClipboard = (text) => {
-  let supported = navigator && 'clipboard' in navigator;
+  let supported = navigator && "clipboard" in navigator;
 
   if (supported) {
     navigator.clipboard.writeText(text);
@@ -17,7 +17,13 @@ const useClipboard = (text) => {
 };
 
 const destroy = (uuid) => {
-  router.delete('/' + uuid);
+  router.delete("/" + uuid);
+};
+
+const expire_time = (Time) => {
+  let date = new Date(Date.parse(Time + " UTC"));
+
+  return date.toLocaleString();
 };
 
 const props = defineProps({
@@ -42,12 +48,29 @@ const props = defineProps({
               placeholder="Your secret"
             />
             <div class="flex justify-between">
-              <AppButton v-if="cancopy" class="ml-0 mt-2" @click="useClipboard(secret)">
+              <AppButton
+                v-if="cancopy"
+                class="ml-0 mt-2"
+                @click="useClipboard(secret)"
+              >
                 Copy
               </AppButton>
               <AppButton class="ml-0 mt-2" @click="destroy(uuid)">
                 Delete
               </AppButton>
+            </div>
+
+            <div
+              class="mt-5 text-balance text-justify text-sm font-medium tracking-tight"
+            >
+              <p>
+                Copy the text in the box above and save in a safe place. After
+                saved, click the delete button to remove from the system.
+              </p>
+              <p class="mt-5">
+                This page has {{ $page.props.views_remaining }} views left. It
+                will expire "{{ expire_time($page.props.expires_at) }}".
+              </p>
             </div>
           </div>
         </div>
