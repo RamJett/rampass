@@ -68,9 +68,12 @@ const props = defineProps({
                 saved, click the delete button to remove from the system.
               </p>
               <p class="mt-5">
-                This page has {{ $page.props.views_remaining }} views left. It
-                will expire "{{ expire_time($page.props.expires_at) }}".
+                This secret:
               </p>
+              <ul class="list-inside list-disc">
+                <li>{{ $page.props.views_remaining }} views left.</li>
+                <li>Expires "{{ expire_time($page.props.expires_at) }}"</li>
+              </ul>
             </div>
           </div>
         </div>

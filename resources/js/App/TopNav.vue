@@ -8,7 +8,7 @@ const logo_name = import.meta.env.VITE_APP_NAME || 'RAMPASS';
 <template>
   <nav class="bg-white border-gray-200 dark:bg-gray-900">
     <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-      <Link href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+      <Link :href="route('secret.create')" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="/logo.svg" class="h-8" alt="Logo" />
       <div class="grid grid-cols-1 gap-0">
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ logo_name }}</span>
