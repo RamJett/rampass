@@ -87,7 +87,7 @@ class SecretController extends Controller
 
     $validator = $request->validate([
       'date_expires' =>
-        'required|date|before_or_equal:' . $datetime,
+      'required|date|before_or_equal:' . $datetime,
       'content_type' => 'required|starts_with:application/json',
       'time' => 'required|integer|gte:1',
       'views' => 'required|integer|gte:1',
