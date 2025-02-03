@@ -38,22 +38,24 @@ class SecretController extends Controller
   {
     $uuid = Str::uuid();
 
-    if ($request->units == 'days') {
-      $datetime = Carbon::now()->addDays($request->time);
-    } elseif ($request->units == 'hours') {
-      $datetime = Carbon::now()->addHours($request->time);
+    $datetime = Carbon::now(); // Store current timestamp
+
+    if ($request->units === 'days') {
+      $datetime = $datetime->addDays((int) $request->time);
+    } elseif ($request->units === 'hours') {
+      $datetime = $datetime->addHours((int) $request->time);
     } else {
-      $datetime = Carbon::now()->addMinutes($request->time);
+      $datetime = $datetime->addMinutes((int) $request->time);
     }
-    // First make sure content-type is application/json
+ 
     $request->merge([
       'content_type' => Str::lower($request->header('Content-Type')),
       'date_expires' => $datetime,
     ]);
 
-    $validator = Validator::make($request->all(), [
+    $validator = $request->validate([
       'date_expires' =>
-        'required|date|before_or_equal:' . Carbon::now()->addMonth(),
+        'required|date|before_or_equal:' . $datetime,
       'content_type' => 'required|starts_with:application/json',
       'time' => 'required|integer|gte:1',
       'views' => 'required|integer|gte:1',
