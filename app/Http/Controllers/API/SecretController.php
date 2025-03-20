@@ -63,6 +63,8 @@ class SecretController extends Controller
       'secret' => 'required',
     ]);
 
+/* FIXME: For now remove this section. It no longer works.
+
     if ($validator->fails()) {
       return response()->json(
         [
@@ -72,6 +74,7 @@ class SecretController extends Controller
         422
       );
     }
+*/
 
     $expire_views = $request->views;
 
