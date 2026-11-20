@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Secret links must not be indexed or leaked to other sites -->
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="referrer" content="no-referrer">
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 

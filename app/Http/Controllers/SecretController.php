@@ -107,47 +107,77 @@ class SecretController extends Controller
    * @param  string  $uuid
    * @return \Illuminate\Http\Response
    */
-  public function show($uuid)
+  /**
+   * Find a secret that can still be viewed, or null. Expired or used up
+   * secrets are deleted on the way.
+   */
+  private function liveSecret($uuid)
   {
-    $input = ['uuid' => $uuid];
-    $validator = Validator::make($input, [
-      'uuid' => 'uuid',
-    ]);
-
-    if ($validator->fails()) {
-      abort(404);
+    if (Validator::make(['uuid' => $uuid], ['uuid' => 'uuid'])->fails()) {
+      return null;
     }
 
     $secret = Secret::where(
       'uuid',
       crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$')
-    )->firstOrFail();
-    if (!empty($secret->secret)) {
-      // Check for expiry
-      if (
-        Carbon::now()->gte($secret->expires_at) ||
-        $secret->count_views >= $secret->expire_views
-      ) {
-        $secret->delete();
-        return abort(404);
-      } else {
-        // Increment the view count
-        $secret->increment('count_views');
+    )->first();
 
-        $secretDecrypted = Crypt::decryptString($secret->secret);
-        $expires_at = $secret->expires_at;
-        $views_remaining = $secret->expire_views - $secret->count_views;
-      }
-    } else {
-      return abort(404);
+    if (!$secret || empty($secret->secret)) {
+      return null;
+    }
+
+    if (
+      Carbon::now()->gte($secret->expires_at) ||
+      $secret->count_views >= $secret->expire_views
+    ) {
+      $secret->delete();
+      return null;
+    }
+
+    return $secret;
+  }
+
+  /**
+   * The link page. It does not count a view and does not contain the
+   * secret, so email scanners and chat link previews that open the link
+   * cannot use it up. The secret is shown by reveal(), on a button press.
+   */
+  public function show($uuid)
+  {
+    $secret = $this->liveSecret($uuid);
+    if (!$secret) {
+      abort(404);
     }
 
     return Inertia::render('Show', [
-      'secret' => $secretDecrypted,
-      'expires_at' => $expires_at,
-      'views_remaining' => $views_remaining,
       'uuid' => $uuid,
+      'expires_at' => $secret->expires_at,
+      'views_remaining' => $secret->expire_views - $secret->count_views,
     ]);
+  }
+
+  /**
+   * Count one view and return the secret (POST from the link page).
+   */
+  public function reveal($uuid)
+  {
+    $secret = $this->liveSecret($uuid);
+    if (!$secret) {
+      return response()->json(['status' => 'fail'], 404);
+    }
+
+    $secret->increment('count_views');
+
+    return response()
+      ->json([
+        'status' => 'success',
+        'data' => [
+          'secret' => Crypt::decryptString($secret->secret),
+          'expires_at' => $secret->expires_at,
+          'views_remaining' => $secret->expire_views - $secret->count_views,
+        ],
+      ])
+      ->header('Cache-Control', 'no-store');
   }
 
   /**
