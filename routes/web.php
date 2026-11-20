@@ -17,7 +17,8 @@ use App\Http\Controllers\AboutController;
 
 
 Route::get('/', [SecretController::class, 'create'])->name('secret.create');
-Route::post('/', [SecretController::class, 'store'])->name('secret.store');
+// Same per-IP limit as the API (config/rampass.php create_per_minute)
+Route::post('/', [SecretController::class, 'store'])->middleware('throttle:api')->name('secret.store');
 Route::get('/{uuid}', [SecretController::class, 'show'])->name('secret.show');
 Route::delete('/{uuid}', [SecretController::class, 'destroy'])->name('secret.delete');
 Route::get('/page/about', [AboutController::class, 'index'])->name('about.index');

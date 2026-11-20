@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Concerns\ValidatesNewSecret;
 use App\Models\Secret;
 use App\Models\Maintenance;
 use Inertia\Inertia;
@@ -14,6 +15,8 @@ use Carbon\Carbon;
 
 class SecretController extends Controller
 {
+  use ValidatesNewSecret;
+
   public function __construct()
   {
     $maintenance = Maintenance::where('job', 'expire_secrets')->firstOrCreate([
@@ -70,29 +73,13 @@ class SecretController extends Controller
   {
     $uuid = Str::uuid();
 
-    $datetime = Carbon::now(); // Store current timestamp
-
-    if ($request->units === 'days') {
-      $datetime = $datetime->addDays((int) $request->time);
-    } elseif ($request->units === 'hours') {
-      $datetime = $datetime->addHours((int) $request->time);
-    } else {
-      $datetime = $datetime->addMinutes((int) $request->time);
-    }
+    $datetime = $this->validateNewSecret($request);
 
     $request->merge([
       'content_type' => Str::lower($request->header('Content-Type')),
-      'date_expires' => $datetime,
     ]);
-
-    $validator = $request->validate([
-      'date_expires' =>
-      'required|date|before_or_equal:' . $datetime,
+    $request->validate([
       'content_type' => 'required|starts_with:application/json',
-      'time' => 'required|integer|gte:1',
-      'views' => 'required|integer|gte:1',
-      'units' => 'required|in:minutes,hours,days',
-      'secret' => 'required',
     ]);
 
     $expire_views = $request->views;
