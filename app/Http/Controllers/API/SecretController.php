@@ -135,4 +135,29 @@ class SecretController extends Controller
       ],
     ]);
   }
+
+  /**
+   * Delete a secret (e.g. a script revoking a link it created).
+   */
+  public function delete($uuid)
+  {
+    $validator = Validator::make(['uuid' => $uuid], ['uuid' => 'uuid']);
+    if ($validator->fails()) {
+      return response()->json(
+        ['status' => 'fail', 'errors' => $validator->errors()->all()],
+        422
+      );
+    }
+
+    $deleted = Secret::where(
+      'uuid',
+      crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$')
+    )->delete();
+
+    if (!$deleted) {
+      return response()->json(['status' => 'fail'], 404);
+    }
+
+    return response()->json(['status' => 'success']);
+  }
 }

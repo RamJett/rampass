@@ -9,7 +9,6 @@ use App\Models\Secret;
 use App\Models\Maintenance;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
