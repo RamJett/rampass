@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Concerns\ValidatesNewSecret;
 use App\Models\Secret;
 use App\Models\Maintenance;
 use Illuminate\Support\Facades\Crypt;
@@ -13,6 +14,8 @@ use Carbon\Carbon;
 
 class SecretController extends Controller
 {
+  use ValidatesNewSecret;
+
   public function __construct()
   {
     $maintenance = Maintenance::where('job', 'expire_secrets')->firstOrCreate([
@@ -38,38 +41,14 @@ class SecretController extends Controller
   {
     $uuid = Str::uuid();
 
-    if ($request->units == 'days') {
-      $datetime = Carbon::now()->addDays($request->time);
-    } elseif ($request->units == 'hours') {
-      $datetime = Carbon::now()->addHours($request->time);
-    } else {
-      $datetime = Carbon::now()->addMinutes($request->time);
-    }
-    // First make sure content-type is application/json
+    $datetime = $this->validateNewSecret($request);
+
     $request->merge([
       'content_type' => Str::lower($request->header('Content-Type')),
-      'date_expires' => $datetime,
     ]);
-
-    $validator = Validator::make($request->all(), [
-      'date_expires' =>
-        'required|date|before_or_equal:' . Carbon::now()->addMonth(),
+    $request->validate([
       'content_type' => 'required|starts_with:application/json',
-      'time' => 'required|integer|gte:1',
-      'views' => 'required|integer|gte:1',
-      'units' => 'required|in:minutes,hours,days',
-      'secret' => 'required',
     ]);
-
-    if ($validator->fails()) {
-      return response()->json(
-        [
-          'status' => 'fail',
-          'errors' => $validator->errors()->all(),
-        ],
-        422
-      );
-    }
 
     $expire_views = $request->views;
 
@@ -155,5 +134,30 @@ class SecretController extends Controller
         'views_remaining' => $views_remaining,
       ],
     ]);
+  }
+
+  /**
+   * Delete a secret (e.g. a script revoking a link it created).
+   */
+  public function delete($uuid)
+  {
+    $validator = Validator::make(['uuid' => $uuid], ['uuid' => 'uuid']);
+    if ($validator->fails()) {
+      return response()->json(
+        ['status' => 'fail', 'errors' => $validator->errors()->all()],
+        422
+      );
+    }
+
+    $deleted = Secret::where(
+      'uuid',
+      crypt($uuid, '$6$rounds=5000$' . env('APP_SALT') . '$')
+    )->delete();
+
+    if (!$deleted) {
+      return response()->json(['status' => 'fail'], 404);
+    }
+
+    return response()->json(['status' => 'success']);
   }
 }

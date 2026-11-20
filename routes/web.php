@@ -17,8 +17,11 @@ use App\Http\Controllers\AboutController;
 
 
 Route::get('/', [SecretController::class, 'create'])->name('secret.create');
-Route::post('/', [SecretController::class, 'store'])->name('secret.store');
+// Same per-IP limit as the API (config/rampass.php create_per_minute)
+Route::post('/', [SecretController::class, 'store'])->middleware('throttle:api')->name('secret.store');
 Route::get('/{uuid}', [SecretController::class, 'show'])->name('secret.show');
+// Counts a view and returns the secret; the link page itself counts nothing
+Route::post('/{uuid}/reveal', [SecretController::class, 'reveal'])->middleware('throttle:api')->name('secret.reveal');
 Route::delete('/{uuid}', [SecretController::class, 'destroy'])->name('secret.delete');
 Route::get('/page/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/page/togithub', [AboutController::class, 'togithub'])->name('about.togithub');

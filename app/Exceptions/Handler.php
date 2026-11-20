@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -16,6 +18,8 @@ class Handler extends ExceptionHandler
         'current_password',
         'password',
         'password_confirmation',
+        // never write a submitted secret to the session on a rejected form
+        'secret',
     ];
 
     /**
@@ -25,6 +29,16 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        // API validation errors in the API's own format
+        $this->renderable(function (ValidationException $e, Request $request) {
+            if ($request->is('api/*') || $request->is('api')) {
+                return response()->json([
+                    'status' => 'fail',
+                    'errors' => $e->validator->errors()->all(),
+                ], 422);
+            }
         });
     }
 }
